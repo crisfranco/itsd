@@ -151,7 +151,7 @@
         });
 
         var oTable = $('#chamadosFechados').dataTable({
-            "order": [[9, "desc"]],
+            "order": [[0, "desc"]],
             "language": {
                 "sProcessing": "Processando...",
                 "sLengthMenu": "Mostrar _MENU_ registros",
