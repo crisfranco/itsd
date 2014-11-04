@@ -151,7 +151,7 @@
         });
 
         var oTable = $('#chamadosFechados').dataTable({
-            "order": [[0, "desc"]],
+            "order": [[9, "desc"]],
             "language": {
                 "sProcessing": "Processando...",
                 "sLengthMenu": "Mostrar _MENU_ registros",
@@ -168,13 +168,7 @@
                     "sNext": "Seguinte",
                     "sLast": "Último"
                 }
-            },
-            aoColumnDefs: [//Desabilitando o sorting para a última coluna (Ações)
-                {
-                    bSortable: false,
-                    aTargets: [-1]
-                }
-            ]
+            }
         });
     });
 
