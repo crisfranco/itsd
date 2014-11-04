@@ -2,7 +2,7 @@
     <div class="box-header">
         <h3 class="box-title">Usuários cadastrados no sistema</h3>
         <div class="box-tools pull-right">
-            <button class="btn btn-dropbox btn-xs launch-modal" data-toggle="modal" title="Cadastrar um novo usuário">+ Usuário</button>            
+            <button class="btn btn-dropbox btn-xs launch-modal" data-toggle="modal" title="Cadastrar um novo usuário">Adicionar novo...</button>            
         </div>
         <!--         Modal HTML -->
         <div id="modalCadUsuario" class="modal fade">
