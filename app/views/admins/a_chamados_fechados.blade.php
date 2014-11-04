@@ -69,10 +69,10 @@
                                     <input type="hidden" id="hAtendidoPor" name="hAtendidoPor" value="{{ $c->atendido_por; }}">                                    
                                 </td>
                                 <td>                                
-                                <?php echo date('d.m.Y H:i:s', strtotime($c->dt_abertura)); ?>
+                                <?php echo date('Y.m.d H:i:s', strtotime($c->dt_abertura)); ?>
                                 </td>                                
                                 <td>                                
-                                <?php echo date('d.m.Y H:i:s', strtotime($c->dt_fechamento)); ?>
+                                <?php echo date('Y.m.d H:i:s', strtotime($c->dt_fechamento)); ?>
                                 </td>
                                                                                            
                             </tr>
@@ -151,7 +151,7 @@
         });
 
         var oTable = $('#chamadosFechados').dataTable({
-            "order": [[0, "desc"]],
+            "order": [[9, "desc"]],
             "language": {
                 "sProcessing": "Processando...",
                 "sLengthMenu": "Mostrar _MENU_ registros",
