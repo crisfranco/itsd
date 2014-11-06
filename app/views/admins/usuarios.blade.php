@@ -25,7 +25,6 @@
                             <p>
                                 <select id="modalEquipamentos" name="modalEquipamentos" class="form-control input-lg">
                                     <option value></option>
-
                                     <?php
                                     $nomeGrupo = "";
                                     foreach ($equipamentos as $equip)
@@ -43,7 +42,7 @@
                                             echo '<optgroup label="', $nomeGrupo, '">';
                                             echo '<option value="', $equip->id, '">';
                                             echo $equip->cn;
-                                            echo '</option>';                                            
+                                            echo '</option>';
                                         }
                                     }
                                     ?>
