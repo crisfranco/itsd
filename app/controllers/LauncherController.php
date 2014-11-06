@@ -11,8 +11,7 @@ class LauncherController extends BaseController {
     public function usuarios()
     {
         return View::make('admins.usuarios', array(
-                    'setores' => Setores::get(),
-                    'equipamentos' => Equipamentos::orderBy('id_setor', 'ASC')->get(),
+                    'setores' => Setores::get(),                    
                     'todos_os_usuarios' => Usuarios::get()
         ));
     }
@@ -111,6 +110,13 @@ class LauncherController extends BaseController {
                     'categorias' => Categorias::get(),
                     'marcas' => Marcas::get(),
                     'setores' => Setores::get()
+        ));
+    }
+    
+    public function equipamentosPorSetor()
+    {
+        return View::make('admins.equipamentos_por_setor', array(
+                    'equipamentos_por_setor' => Equipamentos::with('setor')->where('id_setor', '=', Input::get('idSetor'))->get()
         ));
     }
 

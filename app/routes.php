@@ -37,6 +37,8 @@ Route::group(array(
     'before' => 'ajaxCheck|reqAdmin'), function() {
 //EQUIPAMENTOS
     Route::get('gequipamentos', 'LauncherController@equipamentos');
+    
+    Route::get('getequipamentosporsetor', 'LauncherController@equipamentosPorSetor');
 
     Route::post('cadequipamento', 'LauncherController@cadEquipamento');
 
