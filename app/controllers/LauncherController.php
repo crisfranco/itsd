@@ -2,45 +2,56 @@
 
 class LauncherController extends BaseController {
 
-    public function noIE() {
+    public function noIE()
+    {
         return View::make('errors.noie');
     }
 
     //USUÁRIOS
-    public function usuarios() {
+    public function usuarios()
+    {
         return View::make('admins.usuarios', array(
+                    'setores' => Setores::get(),
+                    'equipamentos' => Equipamentos::orderBy('id_setor', 'ASC')->get(),
                     'todos_os_usuarios' => Usuarios::get()
         ));
     }
 
     //MARCAS
-    public function marcas() {
+    public function marcas()
+    {
         return View::make('admins.marcas', array(
                     'todas_as_marcas' => Marcas::get()));
     }
 
-    public function cadMarca() {
+    public function cadMarca()
+    {
         $result = DB::table('marcas')->insertGetId(array(
             'nome' => Input::get('mNome')));
 
-        if ($result != null && $result > 0) {
+        if ($result != null && $result > 0)
+        {
             return $this->marcas();
         }
     }
 
-    public function excMarca() {
+    public function excMarca()
+    {
         $marca = Marcas::find(Input::get('id'));
 
-        if ($marca != null) {
+        if ($marca != null)
+        {
             $marca->delete();
             return $this->marcas();
         }
     }
 
-    public function editMarca() {
+    public function editMarca()
+    {
         $marca = Marcas::find(Input::get('id'));
 
-        if ($marca != null) {
+        if ($marca != null)
+        {
             $marca->nome = Input::get('novoNome');
 
             $marca->save();
@@ -50,33 +61,40 @@ class LauncherController extends BaseController {
     }
 
     //CATEGORIAS
-    public function categorias() {
+    public function categorias()
+    {
         return View::make('admins.categorias', array(
                     'todas_as_categorias' => Categorias::get()));
     }
 
-    public function cadCategoria() {
+    public function cadCategoria()
+    {
         $result = DB::table('categorias')->insertGetId(array(
             'nome' => Input::get('cNome')));
 
-        if ($result != null && $result > 0) {
+        if ($result != null && $result > 0)
+        {
             return $this->categorias();
         }
     }
 
-    public function excCategoria() {
+    public function excCategoria()
+    {
         $categoria = Categorias::find(Input::get('id'));
 
-        if ($categoria != null) {
+        if ($categoria != null)
+        {
             $categoria->delete();
             return $this->categorias();
         }
     }
 
-    public function editCategoria() {
+    public function editCategoria()
+    {
         $categoria = Categorias::find(Input::get('id'));
 
-        if ($categoria != null) {
+        if ($categoria != null)
+        {
             $categoria->nome = Input::get('novoNome');
 
             $categoria->save();
@@ -86,7 +104,8 @@ class LauncherController extends BaseController {
     }
 
     //EQUIPAMENTOS
-    public function equipamentos() {
+    public function equipamentos()
+    {
         return View::make('admins.equipamentos', array(
                     'todas_os_equipamentos' => Equipamentos::with('marca', 'categoria', 'setor')->get(),
                     'categorias' => Categorias::get(),
@@ -95,10 +114,12 @@ class LauncherController extends BaseController {
         ));
     }
 
-    public function cadEquipamento() {
+    public function cadEquipamento()
+    {
         $idEquipamento = null;
 
-        if (Input::get('sCategorias') == '1' || Input::get('sCategorias') == '2') {
+        if (Input::get('sCategorias') == '1' || Input::get('sCategorias') == '2')
+        {
             $idEquipamento = DB::table('equipamentos')->insertGetId(array(
                 'id_marca' => Input::get('sMarcas'),
                 'id_categoria' => Input::get('sCategorias'),
@@ -115,7 +136,8 @@ class LauncherController extends BaseController {
                 'dt_garantia' => DataFormater::formatar(Input::get('equipDataGarantia')),
                 'service_tag' => Input::get('equipST')
             ));
-        } else {
+        } else
+        {
             $idEquipamento = DB::table('equipamentos')->insertGetId(array(
                 'id_marca' => Input::get('sMarcas'),
                 'id_categoria' => Input::get('sCategorias'),
@@ -128,25 +150,30 @@ class LauncherController extends BaseController {
             ));
         }
 
-        if ($idEquipamento != null && $idEquipamento > 0) {
+        if ($idEquipamento != null && $idEquipamento > 0)
+        {
             return $this->equipamentos();
         }
     }
 
-    public function excEquipamento() {
+    public function excEquipamento()
+    {
         $equipamento = Equipamentos::find(Input::get('id'));
 
-        if ($equipamento != null) {
+        if ($equipamento != null)
+        {
             $equipamento->delete();
         }
 
         return $this->equipamentos();
     }
 
-    public function editEquipamento() {
+    public function editEquipamento()
+    {
         $equipamento = Equipamentos::find(Input::get('idEquip'));
 
-        if ($equipamento != null) {
+        if ($equipamento != null)
+        {
             $equipamento->id_marca = Input::get('eSMarcas');
             $equipamento->id_categoria = Input::get('eSCategorias');
             $equipamento->id_setor = Input::get('eSSetores');
@@ -154,7 +181,8 @@ class LauncherController extends BaseController {
             $equipamento->dt_aquisicao = DataFormater::formatar(Input::get('eEquipDataAquisicao'));
             $equipamento->dt_garantia = DataFormater::formatar(Input::get('eEquipDataGarantia'));
 
-            if (Input::get('eSCategorias') == '1' || Input::get('eSCategorias') == '2') {
+            if (Input::get('eSCategorias') == '1' || Input::get('eSCategorias') == '2')
+            {
                 $equipamento->cn = Input::get('eEquipCN');
                 $equipamento->processador = Input::get('eEquipProcessador');
                 $equipamento->memoria = Input::get('eEquipMemoria');
@@ -164,7 +192,8 @@ class LauncherController extends BaseController {
                 $equipamento->patrimonio_cpu = Input::get('eEquipPatrimonioCPU');
                 $equipamento->patrimonio_monitor = Input::get('eEquipPatrimonioMonitor');
                 $equipamento->service_tag = Input::get('eEquipST');
-            } else {
+            } else
+            {
                 $equipamento->cn = null;
                 $equipamento->processador = null;
                 $equipamento->memoria = null;
@@ -183,7 +212,8 @@ class LauncherController extends BaseController {
     }
 
     //PEGAR AS CATEGORIAS DOS HELPERS
-    public function getHelpersCategorias() {
+    public function getHelpersCategorias()
+    {
         return Response::json(HelpersCategorias::where('id_helper', '=', Input::get('id'))->get(array(
                             'id',
                             'nome',
@@ -191,7 +221,8 @@ class LauncherController extends BaseController {
     }
 
     //CHAMADOS
-    public function chamados() {
+    public function chamados()
+    {
         return View::make('users.chamados', array(
                     'chamados_abertos' => $this->getChamadosAbertos(),
                     'chamados_fechados' => $this->getChamadosFechados(),
@@ -199,7 +230,8 @@ class LauncherController extends BaseController {
         ));
     }
 
-    public function getDadosChamado() {
+    public function getDadosChamado()
+    {
         return View::make('admins.modal_chamados', array(
                     'procedimentos' => Procedimentos::all(),
                     'casos' => Casos::all(),
@@ -207,15 +239,18 @@ class LauncherController extends BaseController {
                             ->where('id', '=', Input::get('id'))->get()));
     }
 
-    public function gChamadosAbertos() {
-        if (Auth::user()->perfil == 1) {
+    public function gChamadosAbertos()
+    {
+        if (Auth::user()->perfil == 1)
+        {
             return View::make('admins.a_chamados', array(
                         'chamados_abertos' => $this->getChamadosAbertos(),
                         'casos' => Casos::all(),
                         'procedimentos' => array(),
                         'detalhes_chamado' => array()
             ));
-        } else {//Continua aqui
+        } else
+        {//Continua aqui
             //definir as variáveis passadas para a page lista_chamados_abertos
             return View::make('users.lista_chamados_abertos', array(
                         'chamados_abertos' => $this->getChamadosAbertos(),
@@ -226,15 +261,18 @@ class LauncherController extends BaseController {
         }
     }
 
-    public function gChamadosFechados() {
-        if (Auth::user()->perfil == 1) {
+    public function gChamadosFechados()
+    {
+        if (Auth::user()->perfil == 1)
+        {
             return View::make('admins.a_chamados_fechados', array(
                         'chamados_fechados' => $this->getChamadosFechados(),
                         'casos' => Casos::all(),
                         'procedimentos' => array(),
                         'detalhes_chamado' => array()
             ));
-        } else {//Continua aqui
+        } else
+        {//Continua aqui
             //definir as variáveis passadas para a page lista_chamados_fechados
             return View::make('users.lista_chamados_fechados', array(
                         'chamados_fechados' => $this->getChamadosFechados(),
@@ -245,27 +283,36 @@ class LauncherController extends BaseController {
         }
     }
 
-    public static function getChamadosAbertos() {
-        if (Auth::user()->perfil == 1) {
+    public static function getChamadosAbertos()
+    {
+        if (Auth::user()->perfil == 1)
+        {
             return Chamados::with('helperCategoria', 'servico', 'status')->where('id_status', '!=', '3')->where('id_status', '!=', '4')->get();
-        } else {
+        } else
+        {
             return Chamados::with('helperCategoria', 'servico', 'status')->where('id_status', '!=', '3')->where('id_status', '!=', '4')->where('id_usuario', '=', Auth::user()->id)->get();
         }
     }
 
-    public static function getChamadosFechados() {
-        if (Auth::user()->perfil == 1) {
+    public static function getChamadosFechados()
+    {
+        if (Auth::user()->perfil == 1)
+        {
             return Chamados::with('helperCategoria', 'servico', 'status')->where('id_status', '=', '3')->get();
-        } else {
+        } else
+        {
             return Chamados::with('helperCategoria', 'servico', 'status')->where('id_status', '=', '3')->where('id_usuario', '=', Auth::user()->id)->orderBy('id', 'DESC')->get();
         }
     }
 
-    public function cadChamados() {
+    public function cadChamados()
+    {
         $idHelpCat = null;
-        if (Input::has('prioridadeMaxima')) {
+        if (Input::has('prioridadeMaxima'))
+        {
             $idHelpCat = Input::get('ckP');
-        } else {
+        } else
+        {
             $idHelpCat = (Input::get('sSubCategorias') == null) ? 23 : Input::get('sSubCategorias');
         }
 
@@ -290,7 +337,8 @@ class LauncherController extends BaseController {
         return $this->chamados();
     }
 
-    public function reabrirChamado() {
+    public function reabrirChamado()
+    {
         //Precisamos duplicar um registro já inserido no BD, alterando alguns valores
         DB::transaction(function() {
 
@@ -309,14 +357,15 @@ class LauncherController extends BaseController {
             $chamado->reaberto = 1;
 
             $chamado->save();
-            
+
             //MailController::notificarReaberturaChamado();
         });
 
         return $this->chamados();
     }
 
-    public function atualizarChamado() {
+    public function atualizarChamado()
+    {
         DB::transaction(function() {
             $idChamado = Input::get('id_chamado');
 
@@ -328,8 +377,10 @@ class LauncherController extends BaseController {
 
             $emAtendimento = false; //Variável servirá para identificar se o status do chamado está "Em atendimento"
             //Reinserir os dados na tabela servicos
-            foreach (explode('-', Input::get('casos')) as $value) {
-                if ($value !== "") {
+            foreach (explode('-', Input::get('casos')) as $value)
+            {
+                if ($value !== "")
+                {
                     $emAtendimento = true; //Se houver alterações, a variável receberá true;
                     DB::table('chamados_casos')->insert(array(
                         'id_chamado' => $idChamado,
@@ -338,8 +389,10 @@ class LauncherController extends BaseController {
             }
 
             //reinserir os dados na tabela chamdos_casos
-            foreach (explode('-', Input::get('procedimentos')) as $value) {
-                if ($value !== "") {
+            foreach (explode('-', Input::get('procedimentos')) as $value)
+            {
+                if ($value !== "")
+                {
                     $emAtendimento = true; //Se houver alterações, a variável receberá true;
                     //$teste .= 'Valor: ' . $value . ', ';
                     DB::table('servicos')->insert(array(
@@ -361,16 +414,19 @@ class LauncherController extends BaseController {
 
             //Se o chamado começou a ser atendido, o status dele é 1 ou 5
             //Então, grava-se o início do atendimento
-            if ($chamado->id_status == 1 || $chamado->id_status == 5){
+            if ($chamado->id_status == 1 || $chamado->id_status == 5)
+            {
                 $chamado->dt_inicio_atendimento = new \DateTime;
             }
-            
-            if ($emAtendimento == true) {
+
+            if ($emAtendimento == true)
+            {
                 $chamado->id_status = 2;
             }
 
             $encerrado = Input::get('encerrado');
-            if ($encerrado == '3') {
+            if ($encerrado == '3')
+            {
                 $chamado->id_status = $encerrado;
                 $chamado->dt_fechamento = new \DateTime;
                 MailController::notificarEncerramentoChamado(array(
@@ -386,11 +442,13 @@ class LauncherController extends BaseController {
         });
     }
 
-    public function excluirChamado() {
+    public function excluirChamado()
+    {
 
         $chamado = Chamados::find(Input::get('idC'));
 
-        if ($chamado != null && $chamado->id_status === 1) {
+        if ($chamado != null && $chamado->id_status === 1)
+        {
             $chamado->id_status = '4';
             $chamado->save();
         }
@@ -399,11 +457,13 @@ class LauncherController extends BaseController {
     }
 
     // PROCEDIMENTOS
-    public function cadastrarProcedimento() {
+    public function cadastrarProcedimento()
+    {
         $result = DB::table('procedimentos')->insertGetId(array(
             'nome' => Input::get('nome_procedimento')));
 
-        if ($result != null && $result > 0) {
+        if ($result != null && $result > 0)
+        {
             return $result;
         }
     }

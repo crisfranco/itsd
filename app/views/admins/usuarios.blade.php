@@ -16,12 +16,37 @@
                         <div class="modal-body">
                             <p>
                                 <select id="modalSetores" name="modalSetores" class="form-control input-lg">
-                                    <option>id_setor</option>                                    
+                                    <option value></option>
+                                    <?php foreach ($setores as $setor): ?>
+                                        <option value="{{ $setor->id; }}">{{ $setor->nome; }}</option>
+                                    <?php endforeach; ?>
                                 </select>
                             </p>
                             <p>
                                 <select id="modalEquipamentos" name="modalEquipamentos" class="form-control input-lg">
-                                    <option>id_equipamento</option>                                    
+                                    <option value></option>
+
+                                    <?php
+                                    $nomeGrupo = "";
+                                    foreach ($equipamentos as $equip)
+                                    {
+                                        $nomeSetor = Setores::find($equip->id_setor)->nome;
+                                        
+                                        if ($nomeGrupo == $nomeSetor)
+                                        {
+                                            echo '<option value="', $equip->id, '">';
+                                            echo $equip->cn;
+                                            echo '</option>';
+                                        } else
+                                        {
+                                            $nomeGrupo = $nomeSetor;
+                                            echo '<optgroup label="', $nomeGrupo, '">';
+                                            echo '<option value="', $equip->id, '">';
+                                            echo $equip->cn;
+                                            echo '</option>';                                            
+                                        }
+                                    }
+                                    ?>
                                 </select>
                             </p>
                             <div class="panel panel-default">
@@ -94,7 +119,7 @@
                 </tr>
             </thead>            
             <tbody>                
-                <?php foreach ($todos_os_usuarios as $u) : ?>
+<?php foreach ($todos_os_usuarios as $u) : ?>
                     <tr>
                         <td><?php echo $u->id; ?></td>
                         <td><?php echo $u->nome; ?></td>
@@ -110,7 +135,7 @@
                             <button id="btnExcluir" class="btn btn-danger btn-xs" data-toggle="tooltip" title="Excluir"><i class="fa fa-eraser"></i></button> 
                             <button id="btnEditar" class="btn btn-github btn-xs" data-toggle="tooltip" title="Editar"><i class="fa fa-gears"></i></button></td>
                     </tr>
-                <?php endforeach; ?>                
+<?php endforeach; ?>                
             </tbody>            
         </table>
     </div><!-- /.box-body -->   
@@ -122,52 +147,50 @@
         $('#modalCadUsuario').on('shown.bs.modal', function (e) {
             e.preventDefault();
             $('#modalSetores').focus();
-        });
+                });
 
-        $('.launch-modal').click(function () {
-            $('#modalCadUsuario').modal({
-                keyboard: true,
-                backdrop: 'static'
+                $('.launch-modal').click(function () {
+        $('#modalCadUsuario').modal({
+        keyboard: true,
+            backdrop: 'static'
             });
-        });
+            });
 
         $('#opcoesAU input').iCheck({
             radioClass: 'iradio_square-blue',
             increaseArea: '20%'
-        });
+            });
 
         $('#modalCadAtivo').iCheck({
-            checkboxClass: 'icheckbox_square-blue',
+        checkboxClass: 'icheckbox_square-blue',
             increaseArea: '20%'
         });
+                $('.content-header h1').html('Usuários <small>listagem geral</small>');
 
-        $('.content-header h1').html('Usuários <small>listagem geral</small>');
-
-        var oTable = $('#listaUsuarios').dataTable({
+                var oTable = $('#listaUsuarios').dataTable({
             "language": {
                 "sProcessing": "Processando...",
-                "sLengthMenu": "Mostrar _MENU_ registros",
-                "sZeroRecords": "Não foram encontrados resultados",
+                "sLengthMenu": "Mostrar _MENU_ registros",                 "sZeroRecords": "Não foram encontrados resultados",
                 "sInfo": "Mostrando de <code>_START_</code> até <code>_END_</code> de <code>_TOTAL_</code> registros",
                 "sInfoEmpty": "Mostrando de 0 até 0 de 0 registros",
                 "sInfoFiltered": "(filtrado de _MAX_ registros no total)",
                 "sInfoPostFix": "",
-                "sSearch": "Buscar:",
-                "sUrl": "",
-                "oPaginate": {
+                    "sSearch": "Buscar:",
+                    "sUrl": "",
+                    "oPaginate": {
                     "sFirst": "Primeiro",
-                    "sPrevious": "Anterior",
-                    "sNext": "Seguinte",
+                "sPrevious": "Anterior",
+            "sNext": "Seguinte",
                     "sLast": "Último"
                 }
-            },
-            aoColumnDefs: [//Desabilitando o sorting para a última coluna (Ações)
-                {
-                    bSortable: false,
-                    aTargets: [-1]
+                },
+                aoColumnDefs: [//Desabilitando o sorting para a última coluna (Ações)
+            {
+        bSortable: false,
+            aTargets: [-1]
                 }
-            ]
-        });
+        ]
+    });
 
         $('table a').click(function (e) {
             e.preventDefault();
