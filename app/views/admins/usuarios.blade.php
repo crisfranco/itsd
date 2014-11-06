@@ -4,7 +4,7 @@
         <div class="box-tools pull-right">
             <button class="btn btn-dropbox btn-xs launch-modal" data-toggle="modal" title="Cadastrar um novo usuário">Adicionar novo...</button>            
         </div>
-        <!--         Modal HTML -->
+        <!-- Modal HTML -->
         <div id="modalCadUsuario" class="modal fade">
             <div class="modal-dialog" style="width: 700px">
                 <div class="modal-content">
