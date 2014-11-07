@@ -120,7 +120,7 @@
 
     function formatarEmail() {
         var emailAmway = '@amway.com';
-        if ($('#modalCadEmail').val() === emailAmway || $('#modalCadAIU').val().trim() === '') {            
+        if ($('#modalCadEmail').val() === emailAmway || $('#modalCadAIU').val().trim() === '') {
             $('#modalCadEmail').val('');
         } else {
             var emailCompleto = $('#modalCadAIU').val() + emailAmway;
@@ -128,9 +128,21 @@
         }
         $('#modalCadEmail').blur();
     }
-    
-    $(function () {
+
+    function limparCadastroUsuario() {
+        $('#modalSelectSetores option:selected').removeAttr('selected').focus();
         
+        $('#perfilU, #modalCadAtivo').prop('checked', true);
+
+        $('#modalCadAIU').val('');
+        
+        $('#modalCadNome').val('');
+
+        $('#modalCadEmail').val('');
+    }
+
+    $(function () {
+
         $('#modalCadAIU').on("propertychange change keyup paste input", function () {
             formatarEmail();
         });
@@ -192,9 +204,13 @@
                         console.log('USI - Usuário e/ou senha inválido(s), se o problema persistir contate-nos no ramal 9854');
                         window.location.replace('');
                         break;
-                        
-                        case 'UC':
-                        console.log('UC - Usuário Cadastrado!');                        
+
+                    case 'UC': //aguardar a resposta de cadastro ok
+                        console.log('UC - Usuário Cadastrado!');
+                        //exibir confirmação para o usuário
+                        alert('Usuário cadastro com sucesso!');
+                        //Limpar formulário de cadastro
+                        limparCadastroUsuario();
                         break;
                 }
 
@@ -202,11 +218,6 @@
                 console.log(xhr.responseText);
                 alert('Ocorreu um erro com sua requisição. Por favor, contate a TI no ramal 9854.');
             });
-            //aguardar a resposta de cadastro ok
-            //exibir confirmação para o usuário
-            //perguntar se deseja cadastrar novo usuário:
-            //Se sim, focu no primeiro controle
-            //Se não, fechar a janela modal
         });
 
 
