@@ -48,6 +48,7 @@ Route::group(array(
 
 //USUÁRIOS
     Route::get('gusuarios', 'LauncherController@usuarios');
+    Route::post('cadusuario', 'LoginController@cadastrarUsuario');
 
 //MARCAS
     Route::get('gmarcas', 'LauncherController@marcas');
