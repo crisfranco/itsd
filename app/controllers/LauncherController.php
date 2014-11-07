@@ -11,7 +11,7 @@ class LauncherController extends BaseController {
     public function usuarios()
     {
         return View::make('admins.usuarios', array(
-                    'setores' => Setores::get(),                    
+                    'setores' => Setores::orderBy('nome', 'ASC')->get(),                    
                     'todos_os_usuarios' => Usuarios::get()
         ));
     }
