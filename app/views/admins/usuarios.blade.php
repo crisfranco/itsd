@@ -2,7 +2,7 @@
     <div class="box-header">
         <h3 class="box-title">Usuários cadastrados no sistema</h3>
         <div class="box-tools pull-right">
-            <button class="btn btn-dropbox btn-xs launch-modal" data-toggle="modal" title="Cadastrar um novo usuário">Adicionar novo...</button>            
+            <button class="btn btn-flat bg-orange btn-xs launch-modal " data-toggle="modal" title="Cadastrar um novo usuário">Cadastrar usuário...</button>            
         </div>
         <!-- Modal HTML -->
         <div id="modalCadUsuario" class="modal fade">
@@ -106,8 +106,8 @@
                         <td><?php echo (($u->perfil == 1) ? 'Administrador' : 'Usuário'); ?></td>
                         <td><?php echo (($u->ativo == 1) ? 'sim' : 'não'); ?></td>
                         <td>
-                            <button id="btnExcluir" class="btn btn-danger btn-xs" data-toggle="tooltip" title="Excluir"><i class="fa fa-eraser"></i></button> 
-                            <button id="btnEditar" class="btn btn-github btn-xs" data-toggle="tooltip" title="Editar"><i class="fa fa-gears"></i></button></td>
+                            <button id="btnExcluir" class="btn btn-danger btn-xs btn-flat" data-toggle="tooltip" title="Excluir"><i class="fa fa-eraser"></i></button> 
+                            <button id="btnEditar" class="btn btn-github btn-xs btn-flat" data-toggle="tooltip" title="Editar"><i class="fa fa-gears"></i></button></td>
                     </tr>
                 <?php endforeach; ?>                
             </tbody>            
