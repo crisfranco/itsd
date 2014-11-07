@@ -130,17 +130,20 @@
     }
 
     function limparCadastroUsuario() {
-        $('#modalSelectSetores option').removeAttr('selected').focus();
-
+        
         $('#perfilU, #modalCadAtivo').prop('checked', true);
 
-        $('#modalCadAIU').val('');
+        $('#modalCadAIU').val('').blur();
 
-        $('#modalCadNome').val('');
+        $('#modalCadNome').val('').blur();
 
-        $('#modalCadEmail').val('');
+        $('#modalCadEmail').val('').blur();
 
-        $('#modalCadRamal').val('');
+        $('#modalCadRamal').val('').blur();
+        
+        $('#modalSelectSetores').attr('selectedIndex', '-1').blur();
+        
+        $('#modalSelectEquipamentos  :selected').attr('selected', '-1');
     }
 
     $(function () {
