@@ -15,7 +15,7 @@
                         </div>
                         <div class="modal-body">
                             <p>                                
-                                <select id="mSelectSetores" name="mSelectSetores" class="form-control input-lg">
+                                <select id="modalSelectSetores" name="modalSelectSetores" class="form-control input-lg">
                                     <option value selected disabled style="display: none;">Setores</option>
                                     <?php foreach ($setores as $setor): ?>
                                         <option value="{{ $setor->id; }}">{{ $setor->nome; }}</option>
@@ -23,7 +23,7 @@
                                 </select>
                             </p>
                             <p>                                
-                                <select id="mSelectEquipamentos" name="mSelectEquipamentos" class="form-control input-lg"></select>
+                                <select id="modalSelectEquipamentos" name="modalSelectEquipamentos" class="form-control input-lg"></select>
                             </p>
                             <div class="panel panel-default">
                                 <div class="panel-heading">Perfil</div>
@@ -31,13 +31,11 @@
                                     <div id="opcoesAU" class="form-inline">
                                         <div class="radio">
                                             <label>
-                                                <input type="radio" name="opcaoU" id="opcaoU" checked>
+                                                <input type="radio" name="perfil" value="2" id="perfilU" checked>
                                                 Usuário
                                             </label>
-                                        </div>
-                                        <div class="radio" style="padding-left: 24px;">
-                                            <label>
-                                                <input type="radio" name="opcaoA" id="opcaoA">
+                                            <label style="padding-left: 24px;">
+                                                <input type="radio" name="perfil" value="1" id="perfilA">
                                                 Administrador
                                             </label>
                                         </div>                                        
@@ -46,14 +44,14 @@
                             </div>
 
                             <p>
-                                <input id="modalCadUsername" name="modalCadUsername" type="text" placeholder="Username" class="floatlabel form-control input-lg">
-                            </p>
-                            <p>
-                                <input id="modalCadPassword" name="modalCadPassword" type="password" placeholder="Password" class="floatlabel form-control input-lg">
-                            </p>
+                                <input id="modalCadAIU" name="modalCadAIU" type="text" placeholder="AIU" class="floatlabel form-control input-lg">
+                            </p>                            
                             <p>
                                 <input id="modalCadNome" name="modalCadNome" type="text" placeholder="Nome" class="floatlabel form-control input-lg">
-                            </p>                            
+                            </p>
+                            <p>
+                                <input id="modalCadEmail" name="modalCadEmail" type="text" placeholder="E-mail" class="floatlabel form-control input-lg">
+                            </p>
                             <p>
                                 <input id="modalCadCelular" name="modalCadCelular" type="text" placeholder="Celular Corporativo" class="floatlabel form-control input-lg">
                             </p>                            
@@ -120,25 +118,96 @@
 
 <script type="text/javascript">
 
+    function formatarEmail() {
+        var emailAmway = '@amway.com';
+        if ($('#modalCadEmail').val() === emailAmway || $('#modalCadAIU').val().trim() === '') {            
+            $('#modalCadEmail').val('');
+        } else {
+            var emailCompleto = $('#modalCadAIU').val() + emailAmway;
+            $('#modalCadEmail').val(emailCompleto);
+        }
+        $('#modalCadEmail').blur();
+    }
+    
     $(function () {
+        
+        $('#modalCadAIU').on("propertychange change keyup paste input", function () {
+            formatarEmail();
+        });
 
         $('#mocalCadSubmit').click(function () {
             //verificar se todos os campos estão preenchidos
+            var msgPadrao = 'Erro(s) de preenchimento do formulário:\n';
+            var msgErro = msgPadrao;
+            if ($('#modalSelectSetores option:selected').val() === '') {
+                msgErro += '\n -> Selecione um setor.';
+            }
+
+            if (!$("#modalSelectEquipamentos").find("option:selected").length || $('#modalSelectEquipamentos option:selected').val() === '') {
+                msgErro += '\n -> Selecione um equipamento.';
+            }
+
+            if ($('#modalCadAIU').val().trim() === '') {
+                msgErro += '\n -> Informe o AIU do usuário.';
+                $('#modalCadAIU').val('');
+            }
+
+            if ($('#modalCadNome').val().trim() === '') {
+                msgErro += '\n -> Informe o nome do usuário.';
+                $('#modalCadNome').val('');
+            }
+
+            if ($('#modalCadEmail').val().trim() === '') {
+                msgErro += '\n -> Informe o email do usuário.';
+                $('#modalCadEmail').val('');
+            }
+
+            if (msgErro !== msgPadrao) {
+                alert(msgErro);
+                msgErro = msgPadrao;
+                return;
+            }
+
             //submeter o formulário por ajax
+            $.ajax({
+                type: 'post',
+                url: 'cadusuario',
+                data: $('#frmNovoUsuario').serialize()
+            }).done(function (data) {
+
+                switch (data) {
+                    case 'UNA':
+                        console.log('UNA - Usuário Não Ativo');
+                        window.location.replace('');
+                        break;
+                    case 'SP':
+                        console.log('SP - Senha Padrão. Por favor, mudar a senha.');
+                        window.location.replace('');
+                        break;
+                    case 'UFL':
+                        console.log('UFL - Usuário Fez Logout');
+                        window.location.replace('');
+                        break;
+                    case 'USI':
+                        console.log('USI - Usuário e/ou senha inválido(s), se o problema persistir contate-nos no ramal 9854');
+                        window.location.replace('');
+                        break;
+                        
+                        case 'UC':
+                        console.log('UC - Usuário Cadastrado!');                        
+                        break;
+                }
+
+            }).fail(function (xhr, status, error) {
+                console.log(xhr.responseText);
+                alert('Ocorreu um erro com sua requisição. Por favor, contate a TI no ramal 9854.');
+            });
             //aguardar a resposta de cadastro ok
             //exibir confirmação para o usuário
             //perguntar se deseja cadastrar novo usuário:
             //Se sim, focu no primeiro controle
             //Se não, fechar a janela modal
         });
-
-
-
-
-
-
-
-
 
 
 
@@ -154,14 +223,14 @@
             });
         });
 
-        $('#mSelectSetores').change(function () {
+        $('#modalSelectSetores').change(function () {
 
-            $('#mSelectEquipamentos').attr('disabled', 'disabled');
+            $('#modalSelectEquipamentos').attr('disabled', 'disabled');
 
             $.ajax({
                 type: 'get',
                 url: 'getequipamentosporsetor',
-                data: {idSetor: $('#mSelectSetores option:selected').val()}
+                data: {idSetor: $('#modalSelectSetores option:selected').val()}
             }).done(function (data) {
 
                 switch (data) {
@@ -183,9 +252,9 @@
                         break;
                 }
 
-                $('#mSelectEquipamentos').html(data);
+                $('#modalSelectEquipamentos').html(data);
 
-                $('#mSelectEquipamentos').removeAttr('disabled');
+                $('#modalSelectEquipamentos').removeAttr('disabled');
 
             }).fail(function (xhr, status, error) {
                 console.log(xhr.responseText);
