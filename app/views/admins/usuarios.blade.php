@@ -31,13 +31,13 @@
                                     <div id="opcoesAU" class="form-inline">
                                         <div class="radio">
                                             <label>
-                                                <input type="radio" name="iCheck" id="opcaoU" value="2" checked>
+                                                <input type="radio" name="opcaoU" id="opcaoU" checked>
                                                 Usuário
                                             </label>
                                         </div>
                                         <div class="radio" style="padding-left: 24px;">
                                             <label>
-                                                <input type="radio" name="iCheck" id="opcaoA" value="1">
+                                                <input type="radio" name="opcaoA" id="opcaoA">
                                                 Administrador
                                             </label>
                                         </div>                                        
@@ -119,7 +119,29 @@
 </div>
 
 <script type="text/javascript">
+
     $(function () {
+
+        $('#mocalCadSubmit').click(function () {
+            //verificar se todos os campos estão preenchidos
+            //submeter o formulário por ajax
+            //aguardar a resposta de cadastro ok
+            //exibir confirmação para o usuário
+            //perguntar se deseja cadastrar novo usuário:
+            //Se sim, focu no primeiro controle
+            //Se não, fechar a janela modal
+        });
+
+
+
+
+
+
+
+
+
+
+
         $('#modalCadUsuario').on('shown.bs.modal', function (e) {
             e.preventDefault();
             $('#modalSetores').focus();
