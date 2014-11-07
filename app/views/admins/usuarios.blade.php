@@ -130,15 +130,17 @@
     }
 
     function limparCadastroUsuario() {
-        $('#modalSelectSetores option:selected').removeAttr('selected').focus();
-        
+        $('#modalSelectSetores option').removeAttr('selected').focus();
+
         $('#perfilU, #modalCadAtivo').prop('checked', true);
 
         $('#modalCadAIU').val('');
-        
+
         $('#modalCadNome').val('');
 
         $('#modalCadEmail').val('');
+
+        $('#modalCadRamal').val('');
     }
 
     $(function () {
